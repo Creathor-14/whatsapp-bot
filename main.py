@@ -1,12 +1,15 @@
 from fastapi import FastAPI, Request
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
+import os
 
 app = FastAPI()
 
-# Twilio credentials (retrieved from your Twilio dashboard)
-TWILIO_ACCOUNT_SID = "your_account_sid"
-TWILIO_AUTH_TOKEN = "your_auth_token"
+
+# Obtén las credenciales desde las variables de entorno
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+
 client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 @app.post("/whatsapp")
