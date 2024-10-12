@@ -17,18 +17,20 @@ client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 @app.post("/whatsapp")
 async def whatsapp_bot(request: Request):
-    data = await request.form()
-    message_body = data.get("Body").lower()  # WhatsApp message
+    try:
+        data = await request.form()
+        message_body = data.get("Body").lower()
 
-    # Logic for the chatbot
-    if "hello" in message_body:
-        response_msg = "Hi! How can I help you today?"
-    else:
-        response_msg = "Sorry, I didn't understand that."
+        # Logic for the chatbot
+        if "hello" in message_body:
+            response_msg = "Hi! How can I help you today?"
+        else:
+            response_msg = "Sorry, I didn't understand that."
 
-    # Twilio MessagingResponse
-    response = MessagingResponse()
-    response.message(response_msg)
+        response = MessagingResponse()
+        response.message(response_msg)
 
-    return str(response)
-
+        return str(response)
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return {"error": "An error occurred."}, 500
