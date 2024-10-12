@@ -11,9 +11,12 @@ TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 
 client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-
+print(f"TWILIO_ACCOUNT_SID: {TWILIO_ACCOUNT_SID}")
+print(f"TWILIO_AUTH_TOKEN: {TWILIO_AUTH_TOKEN}")
 @app.post("/whatsapp")
 async def whatsapp_bot(request: Request):
+    print(f"TWILIO_ACCOUNT_SID: {TWILIO_ACCOUNT_SID}")
+    print(f"TWILIO_AUTH_TOKEN: {TWILIO_AUTH_TOKEN}")
     data = await request.form()
     message_body = data.get("Body").lower()  # WhatsApp message
 
