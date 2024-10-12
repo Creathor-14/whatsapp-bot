@@ -15,7 +15,7 @@ TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 
 client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
-@app.post("/whatsapp")
+@app.post("/")
 async def whatsapp_bot(request: Request):
     try:
         data = await request.form()
