@@ -17,16 +17,11 @@ client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 @app.post("/whatsapp")
 async def whatsapp_bot(request: Request):
-    # Registro de las credenciales (sin mostrar el Auth Token por seguridad)
-    logging.info(f"TWILIO_ACCOUNT_SID: {TWILIO_ACCOUNT_SID}")
-    logging.info("Recibiendo mensaje...")
-
     data = await request.form()
-    message_body = data.get("Body").lower()  # Mensaje de WhatsApp
-    logging.info(f"Mensaje recibido: {message_body}")
+    message_body = data.get("Body").lower()  # WhatsApp message
 
-    # Lógica para el chatbot
-    if "hola" in message_body:
+    # Logic for the chatbot
+    if "hello" in message_body:
         response_msg = "Hi! How can I help you today?"
     else:
         response_msg = "Sorry, I didn't understand that."
@@ -35,7 +30,5 @@ async def whatsapp_bot(request: Request):
     response = MessagingResponse()
     response.message(response_msg)
 
-    # Registro de la respuesta que se enviará
-    logging.info(f"Respuesta enviada: {response_msg}")
-
     return str(response)
+
