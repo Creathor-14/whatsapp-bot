@@ -3,6 +3,8 @@ from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 import os
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse  # Importa PlainTextResponse para enviar respuesta como texto plano
+
 
 app = FastAPI()
 
@@ -25,11 +27,10 @@ client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 async def read_root():
     return {"message": "Hello World"}
 
-@app.post("/whatsapp")  # Endpoint para recibir mensajes de WhatsApp
+@app.post("/whatsapp")
 async def whatsapp_bot(request: Request):
-    # Obtén los datos del formulario
     data = await request.form()
-    message_body = data.get("Body").lower()  # Mensaje de WhatsApp recibido
+    message_body = data.get("Body").lower()  # Mensaje de WhatsApp
 
     # Lógica del chatbot
     if "hello" in message_body:
@@ -37,8 +38,9 @@ async def whatsapp_bot(request: Request):
     else:
         response_msg = "Sorry, I didn't understand that."
 
-    # Respuesta de Twilio
+    # Twilio MessagingResponse para generar la respuesta en formato TwiML (XML)
     response = MessagingResponse()
     response.message(response_msg)
 
-    return str(response)
+    # Retorna la respuesta como texto plano (XML) con el Content-Type correcto
+    return PlainTextResponse(str(response), media_type="text/xml")
